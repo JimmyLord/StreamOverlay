@@ -7,22 +7,25 @@
     $connhandle = DB_Open( "localhost", "root", "", "overlay" );
     if( isset($_POST) )
     {
-        echo $_POST['Name'] . " posted " . $_POST['submit'] . "<br/>\n";
-        echo "<br/>\n";
-
         if( isset($_POST['Name']) && isset($_POST['submit']) )
         {
-            $name = DB_QuoteString( $_POST['Name'], $connhandle );
-            $status = DB_QuoteString( $_POST['submit'], $connhandle );
+            if( $_POST['Name'] != "" )
+            {
+                $name = DB_QuoteString( $_POST['Name'], $connhandle );
+                $status = DB_QuoteString( $_POST['submit'], $connhandle );
 
-            $result = DB_Query( "SELECT `ID` FROM `users` WHERE `Name` = $name", $connhandle );
-            if( DB_GetNumRows( $result ) > 0 )
-            {
-                $result = DB_Query( "UPDATE `users` SET `Status` = $status, `LastInteraction` = now() WHERE `name` = $name", $connhandle );
-            }
-            else
-            {
-                $result = DB_Query( "INSERT INTO `users` (`Name`, `Status`) VALUES ($name, $status)", $connhandle );
+                echo "$name posted $status<br/>\n";
+                echo "<br/>\n";
+
+                $result = DB_Query( "SELECT `ID` FROM `users` WHERE `Name` = $name", $connhandle );
+                if( DB_GetNumRows( $result ) > 0 )
+                {
+                    $result = DB_Query( "UPDATE `users` SET `Status` = $status, `LastInteraction` = now() WHERE `name` = $name", $connhandle );
+                }
+                else
+                {
+                    $result = DB_Query( "INSERT INTO `users` (`Name`, `Status`) VALUES ($name, $status)", $connhandle );
+                }
             }
         }
     }
