@@ -10,7 +10,7 @@
 }
 
 span .awake {
-	color: #00cc30;
+	color: #3030cc;
 }
 
 span .asleep {
@@ -18,13 +18,21 @@ span .asleep {
 }
 
 span .question {
-	color: #cc2323;
+	color: #ffff00;
+}
+
+span .working {
+	color: #ffffff;
+}
+
+span .complete {
+	color: #00cc30;
 }
 
 span .error {
 	color: #ff0000;
 }
 
-span .working {
-	color: #6060ff;
+span .other {
+	color: #ffffff;
 }

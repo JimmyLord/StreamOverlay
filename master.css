@@ -1,11 +1,12 @@
 body {
 	margin: 0px auto;
-	background: #00ff00;
+	background: #ff00ff;
 }
 
 .student {
 	width: 70px;
 	display: inline-block;
+	color: #aaaaaa;
 }
 
 #overlay {
