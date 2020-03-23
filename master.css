@@ -1,0 +1,13 @@
+body {
+	margin: 0px auto;
+	background: #00ff00;
+}
+
+.student {
+	width: 70px;
+	display: inline-block;
+}
+
+#overlay {
+	margin: 0px auto; /* This doesn't work with position: absolute, so I need to figure something out here... */
+}

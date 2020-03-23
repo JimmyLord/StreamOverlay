@@ -1,4 +1,6 @@
-<html>
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8" />
 <body>
 
 <?php
@@ -7,48 +9,60 @@
     $connhandle = DB_Open( "localhost", "root", "", "overlay" );
     if( isset($_POST) )
     {
-        if( isset($_POST['Name']) && isset($_POST['submit']) )
+	// According to the documentation, you can put multiple parameters in a single isset call; evaluation is from left to right,
+	// and returns FALSE at the first instance of failure.
+	// Worth testing later.
+        if( isset($_POST['FirstName']) && isset($_POST['LastName']) && isset($_POST['submit']) )
         {
-            if( $_POST['Name'] != "" )
+            if( $_POST['FirstName'] != "" && $_POST['LastName'] != "" )
             {
-                $name = DB_QuoteString( $_POST['Name'], $connhandle );
-                $status = DB_QuoteString( $_POST['submit'], $connhandle );
 
-                echo "$name posted $status<br/>\n";
+		$firstname = $_POST['FirstName'];
+		$lastname = $_POST['LastName'];
+		$status = $_POST['submit'];
+
+                echo "$firstname $lastname posted $status<br/>\n";
                 echo "<br/>\n";
 
-                $result = DB_Query( "SELECT `ID` FROM `users` WHERE `Name` = $name", $connhandle );
+                $firstname = DB_QuoteString( $_POST['FirstName'], $connhandle );
+		$lastname = DB_QuoteString( $_POST['LastName'], $connhandle );
+                $status = DB_QuoteString( $_POST['submit'], $connhandle );
+
+                $result = DB_Query( "SELECT `ID` FROM `users` WHERE `FirstName` = $firstname AND `LastName` = $lastname", $connhandle );
                 if( DB_GetNumRows( $result ) > 0 )
                 {
-                    $result = DB_Query( "UPDATE `users` SET `Status` = $status, `LastInteraction` = now() WHERE `name` = $name", $connhandle );
+		    $row = $result->fetch_assoc();
+		    $id = $row["ID"];
+                    $result = DB_Query( "UPDATE `users` SET `Status` = $status, `LastInteraction` = now() WHERE `id` = $id", $connhandle );
                 }
                 else
                 {
-                    $result = DB_Query( "INSERT INTO `users` (`Name`, `Status`) VALUES ($name, $status)", $connhandle );
+		    $name = $firstname[1] . $lastname[1];
+		    $name = DB_QuoteString( $name, $connhandle );
+                    $result = DB_Query( "INSERT INTO `users` (`FirstName`, `LastName`, `Status`) VALUES ($firstname, $lastname, $status)", $connhandle );
                 }
-            }
+            } elseif (isset($_POST['submit']) ) {
+		echo "First and last name required!<br />";
+	    }
         }
     }
 ?>
 
 <form method='post'>
-    <label for='Name'>Name:</label>
     <?php
-        if( isset($_POST) && isset($_POST['Name']) )
-        {
-            echo "<input type='text' name='Name' value='" . $_POST['Name'] . "'><br/>\n";
-        }
-        else
-        {
-            echo "<input type='text' name='Name'><br/>\n";
-        }
+    	echo "<label for='FirstName'>First name:</label>";
+        echo "<input type='text' name='FirstName' value='" . (isset($_POST['FirstName']) ? $_POST['FirstName'] : "") . "'><br/>\n";
+    	echo "<label for='LastName'>Last name:</label>";
+        echo "<input type='text' name='LastName' value='" . (isset($_POST['LastName']) ? $_POST['LastName'] : "") . "'><br/>\n";
     ?>
     <input id='Awake-submit' type='submit' name='submit' value='Awake'>
     <input id='Asleep-submit' type='submit' name='submit' value='Asleep'>
     <input id='Question-submit' type='submit' name='submit' value='Question'>
+    <input id='Working-submit' type='submit' name='submit' value='Working'>
+    <input id='Complete-submit' type='submit' name='submit' value='Complete'>
 </form>
 
-<body>
+</body>
 </html>
 
 <?php
