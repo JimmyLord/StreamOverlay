@@ -1,0 +1,30 @@
+#overlay {
+	position: absolute;
+	bottom: 0px;
+        width: 96%;
+        background: #0a030e; /* contrast with #0a03ee; */
+        padding: 15px;
+	font-family: Courier New;
+	font-size: 18px;
+	color: #dcdcff;
+}
+
+span .awake {
+	color: #00cc30;
+}
+
+span .asleep {
+	color: #d0d0d0;
+}
+
+span .question {
+	color: #cc2323;
+}
+
+span .error {
+	color: #ff0000;
+}
+
+span .working {
+	color: #6060ff;
+}
