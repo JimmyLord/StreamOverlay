@@ -5,8 +5,9 @@
 
 <?php
     require( "inc_db_helpers.php" );
+    require( "inc_db_config.php" );
 
-    $connhandle = DB_Open( "localhost", "root", "", "overlay" );
+    $connhandle = DB_Open( $db_host, $db_username, $db_password, $db_database );
     if( isset($_POST, $_POST['FirstName'], $_POST['LastName'], $_POST['submit']) )
     {
         if( $_POST['FirstName'] != "" && $_POST['LastName'] != "" )

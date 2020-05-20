@@ -11,8 +11,33 @@
 
 <?php
     require( "inc_db_helpers.php" );
+    require( "inc_db_config.php" );
 
-    $connhandle = DB_Open( "localhost", "root", "", "overlay" );
+    $connhandle = DB_Open( $db_host, $db_username, $db_password, $db_database );
+
+    if( isset($_POST, $_POST['submit']) )
+    {
+        $action = $_POST['submit'];
+        
+        if( $action == 'Clear' )
+        {
+            // curdate() is causing query to fail, not sure why.
+            //$result = DB_Query( "UPDATE `users` SET `LastInteraction`=curdate() WHERE `LastInteraction`=curdate()", $connhandle );
+            $result = DB_Query( "UPDATE `users` SET `LastInteraction`=0 WHERE 1", $connhandle );
+        }
+
+        if( $action == 'Sleep' )
+        {
+            //$result = DB_Query( "UPDATE `users` SET `Status`=\"Asleep\" WHERE `LastInteraction`=curdate()", $connhandle );
+            $result = DB_Query( "UPDATE `users` SET `Status`=\"Asleep\" WHERE 1", $connhandle );
+        }
+    }
+
+    echo "<form method='post'>";
+    echo "<input id='clear-submit' type='submit' name='submit' value='Clear'>";
+    echo "<input id='sleep-submit' type='submit' name='submit' value='Sleep'>";
+    echo "</form>";
+
     $result = DB_Query( "SELECT `FirstName`, `LastName`, `Status` FROM `users` WHERE LastInteraction > DATE_SUB(NOW(), INTERVAL 3 HOUR)", $connhandle );
     $numRows = DB_GetNumRows( $result );
 

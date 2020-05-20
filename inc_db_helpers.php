@@ -13,7 +13,7 @@ function DB_Open($host, $username, $password, $dbname)
 function DB_Query($query, $connhandle)
 {
     $result = $connhandle->query( $query )
-        or die( '<br/>Error: ' . mysqli_error($connhandle) );
+        or die( '<br/>Error: ' . mysqli_error( $connhandle ) );
 
     return $result;
 }
