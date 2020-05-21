@@ -21,15 +21,12 @@
         
         if( $action == 'Clear' )
         {
-            // curdate() is causing query to fail, not sure why.
-            //$result = DB_Query( "UPDATE `users` SET `LastInteraction`=curdate() WHERE `LastInteraction`=curdate()", $connhandle );
-            $result = DB_Query( "UPDATE `users` SET `LastInteraction`=0 WHERE 1", $connhandle );
+            $result = DB_Query( "UPDATE `users` SET `LastInteraction`=curdate() WHERE `LastInteraction`>curdate()", $connhandle );
         }
 
         if( $action == 'Sleep' )
         {
-            //$result = DB_Query( "UPDATE `users` SET `Status`=\"Asleep\" WHERE `LastInteraction`=curdate()", $connhandle );
-            $result = DB_Query( "UPDATE `users` SET `Status`=\"Asleep\" WHERE 1", $connhandle );
+            $result = DB_Query( "UPDATE `users` SET `Status`=\"Asleep\" WHERE `LastInteraction`>curdate()", $connhandle );
         }
     }
 
@@ -84,10 +81,6 @@
             $abbreviatedname = "UN";
         }
         echo "<span class=\"student\"><span title=\"" . $formattedname . "\">" . $abbreviatedname . "</span> <span class=\"$status_class\">" . $status_output . "</span></span>\n";
-
-        // Max 15 users on each line.
-        if( $i % 15 == 14 )
-            echo "</div>\n<div class=\"row\">";
     }
     echo "</div></div>";
 

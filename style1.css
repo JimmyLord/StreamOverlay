@@ -1,9 +1,9 @@
 #overlay {
 	position: absolute;
 	bottom: 0px;
-        width: 96%;
-        background: #0a030e; /* contrast with #0a03ee; */
-        padding: 15px;
+    width: 98%;
+	background: #0a030e; /* contrast with #0a03ee; */
+    padding: 1%;
 	font-family: Courier New;
 	font-size: 18px;
 	color: #dcdcff;
